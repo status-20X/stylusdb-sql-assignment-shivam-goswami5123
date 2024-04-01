@@ -81,13 +81,25 @@ test('Execute SQL Query with Multiple WHERE Clause', async () => {
 test('Execute SQL Query with Greater Than', async () => {
     const queryWithGT = 'SELECT id FROM sample WHERE age > 22';
     const result = await executeSELECTQuery(queryWithGT);
+    // Positive case
     expect(result.length).toEqual(2);
     expect(result[0]).toHaveProperty('id');
+
+    // Negative case
+    const queryWithGTNegative = 'SELECT id FROM sample WHERE age <= 22';
+    const negativeResult = await executeSELECTQuery(queryWithGTNegative);
+    expect(negativeResult.length).toEqual(1);
 });
 
 test('Execute SQL Query with Not Equal to', async () => {
-    const queryWithGT = 'SELECT name FROM sample WHERE age != 25';
-    const result = await executeSELECTQuery(queryWithGT);
+    const queryWithNotEqual = 'SELECT name FROM sample WHERE age != 25';
+    const result = await executeSELECTQuery(queryWithNotEqual);
+    // Positive case
     expect(result.length).toEqual(2);
     expect(result[0]).toHaveProperty('name');
+
+    // Negative case
+    const queryWithNotEqualNegative = 'SELECT name FROM sample WHERE age = 25';
+    const negativeResult = await executeSELECTQuery(queryWithNotEqualNegative);
+    expect(negativeResult.length).toEqual(1);
 });

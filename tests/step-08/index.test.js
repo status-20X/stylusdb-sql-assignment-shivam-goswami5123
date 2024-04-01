@@ -22,15 +22,24 @@ test('Parse SQL Query', () => {
     });
 });
 
-test('Execute SQL Query', async () => {
-    const query = 'SELECT id, name FROM student';
-    const result = await executeSELECTQuery(query);
-    expect(result.length).toBeGreaterThan(0);
-    expect(result[0]).toHaveProperty('id');
-    expect(result[0]).toHaveProperty('name');
-    expect(result[0]).not.toHaveProperty('age');
-    expect(result[0]).toEqual({ id: '1', name: 'John' });
-});
+
+    test('Execute SQL Query', async () => {
+        const query = 'SELECT id, name FROM student';
+        const result = await executeSELECTQuery(query);
+    
+        // Check if result is defined before accessing its properties
+        expect(result).toBeDefined();
+    
+        if (result) {
+            expect(result.length).toBeGreaterThan(0);
+            expect(result[0]).toHaveProperty('id');
+            expect(result[0]).toHaveProperty('name');
+            expect(result[0]).not.toHaveProperty('age');
+            expect(result[0]).toEqual({ id: '1', name: 'John' });
+        }
+    });
+  
+
 
 test('Parse SQL Query with WHERE Clause', () => {
     const query = 'SELECT id, name FROM student WHERE age = 25';

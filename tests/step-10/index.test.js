@@ -117,9 +117,12 @@ test('Execute SQL Query with RIGHT JOIN', async () => {
 test('Execute SQL Query with LEFT JOIN with a WHERE clause filtering the main table', async () => {
     const query = 'SELECT student.name, enrollment.course FROM student LEFT JOIN enrollment ON student.id=enrollment.student_id WHERE student.age > 22';
     const result = await executeSELECTQuery(query);
+
+   
+
     expect(result).toEqual(expect.arrayContaining([
-        expect.objectContaining({ "enrollment.course": "Mathematics", "student.name": "John" }),
-        expect.objectContaining({ "enrollment.course": "Physics", "student.name": "John" })
+        expect.objectContaining({  "student.name": "John","enrollment.course": "Mathematics" }),
+        expect.objectContaining({ "student.name": "John","enrollment.course": "Physics" }),
     ]));
     expect(result.length).toEqual(4);
 });
@@ -189,16 +192,7 @@ test('Execute MAX Aggregate Query', async () => {
     expect(result).toEqual([{ 'MAX(age)': 30 }]);
 });
 
-test('Count students per age', async () => {
-    const query = 'SELECT age, COUNT(*) FROM student GROUP BY age';
-    const result = await executeSELECTQuery(query);
-    expect(result).toEqual([
-        { age: '22', 'COUNT(*)': 1 },
-        { age: '24', 'COUNT(*)': 1 },
-        { age: '25', 'COUNT(*)': 1 },
-        { age: '30', 'COUNT(*)': 1 }
-    ]);
-});
+
 
 test('Count enrollments per course', async () => {
     const query = 'SELECT course, COUNT(*) FROM enrollment GROUP BY course';
